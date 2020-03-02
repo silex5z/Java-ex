@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="shared/layout">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="/board/css/style.min.css" rel="stylesheet">
+  <title>Board</title>
+</head>
+
+<th:block layout:fragment="script" th:tag="remove">
+  <script src="/vendor/jquery/jquery-3.3.1.min.js"></script>
+</th:block>
+
+<th:block layout:fragment="content" th:tag="remove">
+  <h1>Board Ex</h1>
+
+  <div id="app" class="wrap">
+    <ul class="board">
+      <li class="board__row">
+        <span class="board__item">번호</span>
+        <span class="board__item">제목</span>
+        <span class="board__item">글쓴이</span>
+        <span class="board__item">작성일</span>
+      </li>
+      <li class="board__row" th:if="${board != null && board.isPresent()}" th:object="${board.get()}">
+        <span class="board__item" th:text="*{idx}"></span>
+        <span class="board__item" th:text="*{title}"></span>
+        <span class="board__item" th:text="*{name}"></span>
+        <span class="board__item" th:text="*{regDate}"></span>
+      </li>
+    </ul>
+
+    <!-- <form role="form" method="post">
+      <div th:object="${board}">
+        <input type="text" th:value="*{idx}" readonly />
+        <input type="text" th:value="*{title}" readonly />
+        <input type="text" th:value="*{name}" readonly />
+        <input type="text" th:value="*{regDate}" readonly />
+      </div>
+    </form> -->
+    
+    <div class="selectedBoard">
+      <div> [[${board.get().content}]] </div>
+      <div class="buttonWrap">
+        <button type="button" th:onclick="|javascript:location.href='/board/modify/' + ${board.get().idx}|">수정</button>
+        <button type="button" th:onclick="|javascript:location.href='/board/delete/'+ ${board.get().idx}|">삭제</button>
+        <button type="button" onclick="location.href='/board'">글목록</button>
+
+      </div>
+    </div>
+
+    
+  </div>
+
+</th:block>
+
+<th:block layout:fragment="body-script" th:tag="remove">
+  <!-- <script src="/vendor/vue/vue.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- <script src="/board/js/main.js"></script> -->
+</th:block>
+
+</html>
